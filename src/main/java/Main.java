@@ -22,15 +22,14 @@ public class Main {
                     list2.add(str[2]);
                 });
 
-        //System.out.println(list0.size());
+
         Set items = new HashSet<>();
-        //System.out.println(items.size());
-
-        Stream.of(list0).filter(n -> !items.add(n))
+        System.out.println(list0.stream().filter(n -> !items.add(n))
                 .collect(Collectors.toSet())
-                .forEach(System.out::println);
+                .size()); //количество строчек с повторяющимися элементами в первом столбце.
+        //попробовать вытащить из всей коллекции строк элементы с таким значением в первом столбце,
+        // которое соответствует элементу из первого столбца какой либо строки из списка строк, которые не вошли в коллекцию...
 
-        //System.out.println(list0.size() + "-" + list1.size() + "-" + list2.size());
 
         long finish = System.currentTimeMillis();
         System.out.println((finish-start)/1000);
