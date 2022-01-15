@@ -11,9 +11,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         long start = System.currentTimeMillis();
-        List<String[]> list0 = new ArrayList();
-        List<String[]> list1 = new ArrayList();
-        List<String[]> list2 = new ArrayList();
+        Map<String,Set<String[]>> map0 = new HashMap<>();
+        Map<String,Set<String[]>> map1 = new HashMap<>();
+        Map<String,Set<String[]>> map2 = new HashMap<>();
         Set<String> setIndex0 = new HashSet<>();
         Set<String> setIndex1 = new HashSet<>();
         Set<String> setIndex2 = new HashSet<>();
@@ -22,40 +22,52 @@ public class Main {
         Files.readAllLines(Path.of(path)).stream().map(s -> s.split(";"))
                 .filter(strings -> strings.length == 3)
                 .forEach(str -> {
-                    String s0 = str[0];
-                    if(!s0.isEmpty() && !setIndex0.add(s0)) {
-                        list0.add(str);
-                        list0.add(str); // 1 стобец
-                    }
-                    String s1 = str[1];
-                    if(!setIndex1.add(s1)) {
-                        list1.add(str);
-                        list1.add(str); // 2 стобец
-                    }
-                    String s2 = str[2];
-                    if(!setIndex2.add(s2)) {
-                        list2.add(str);
-                        list2.add(str); // 3 стобец
-                    }
-                });
-        System.out.println(list0.size());
-        System.out.println(list1.size());
-        System.out.println(list2.size());
+
+                            String s0 = str[0];
+                            if (!s0.isEmpty() && !setIndex0.add(s0)) {
+                                if (map0.containsKey(s0)) {
+                                    map0.get(s0).add(str);
+                                } else {
+                                    Set<String[]> setValue0 = new HashSet<>();
+                                    setValue0.add(str);
+                                    map0.put(s0, setValue0);
+                                }
+                            }
+
+                            String s1 = str[1];
+                            if (!s1.isEmpty() && !setIndex1.add(s1)) {
+                                if (map1.containsKey(s1)) {
+                                    map1.get(s1).add(str);
+                                } else {
+                                    Set<String[]> setValue1 = new HashSet<>();
+                                    setValue1.add(str);
+                                    map1.put(s1, setValue1);
+                                }
+                            }
+
+
+                            String s2 = str[2];
+                            if (!s2.isEmpty() && !setIndex2.add(s2)) {
+                                if (map2.containsKey(s2)) {
+                                    map2.get(s2).add(str);
+                                } else {
+                                    Set<String[]> setValue2 = new HashSet<>();
+                                    setValue2.add(str);
+                                    map2.put(s2, setValue2);
+                                }
+                            }
+                        });
 
 
 
 
 
-
-        /*Set items = new HashSet<>();
-        System.out.println(list0.stream().filter(n -> !items.add(n))
-                .collect(Collectors.toSet())
-                .size());
-         */
+         System.out.println(map0.size());
+         System.out.println(map1.size());
+         System.out.println(map2.size());
 
 
-        System.out.println("Время выполнения: " + (System.currentTimeMillis()-start)/1000);
 
-
+        System.out.println("Время выполнения: " + (System.currentTimeMillis() - start) / 1000);
     }
 }
