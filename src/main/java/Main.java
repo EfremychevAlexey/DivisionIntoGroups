@@ -9,30 +9,53 @@ public class Main {
     public static final String path = "src\\main\\resources\\lng.csv";
 
     public static void main(String[] args) throws IOException {
+
         long start = System.currentTimeMillis();
-        List<String> list0 = new ArrayList();
-        List<String> list1 = new ArrayList();
-        List<String> list2 = new ArrayList();
+        List<String[]> list0 = new ArrayList();
+        List<String[]> list1 = new ArrayList();
+        List<String[]> list2 = new ArrayList();
+        Set<String> setIndex0 = new HashSet<>();
+        Set<String> setIndex1 = new HashSet<>();
+        Set<String> setIndex2 = new HashSet<>();
+        Set<String[]> setGroups = new HashSet<>();
 
         Files.readAllLines(Path.of(path)).stream().map(s -> s.split(";"))
                 .filter(strings -> strings.length == 3)
                 .forEach(str -> {
-                    list0.add(str[0]);
-                    list1.add(str[1]);
-                    list2.add(str[2]);
+                    String s0 = str[0];
+                    if(!s0.isEmpty() && !setIndex0.add(s0)) {
+                        list0.add(str);
+                        list0.add(str); // 1 стобец
+                    }
+                    String s1 = str[1];
+                    if(!setIndex1.add(s1)) {
+                        list1.add(str);
+                        list1.add(str); // 2 стобец
+                    }
+                    String s2 = str[2];
+                    if(!setIndex2.add(s2)) {
+                        list2.add(str);
+                        list2.add(str); // 3 стобец
+                    }
                 });
+        System.out.println(list0.size());
+        System.out.println(list1.size());
+        System.out.println(list2.size());
 
 
-        Set items = new HashSet<>();
+
+
+
+
+        /*Set items = new HashSet<>();
         System.out.println(list0.stream().filter(n -> !items.add(n))
                 .collect(Collectors.toSet())
-                .size()); //количество строчек с повторяющимися элементами в первом столбце.
-        //попробовать вытащить из всей коллекции строк элементы с таким значением в первом столбце,
-        // которое соответствует элементу из первого столбца какой либо строки из списка строк, которые не вошли в коллекцию...
+                .size());
+         */
 
 
-        long finish = System.currentTimeMillis();
-        System.out.println((finish-start)/1000);
+        System.out.println("Время выполнения: " + (System.currentTimeMillis()-start)/1000);
+
 
     }
 }
